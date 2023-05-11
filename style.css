@@ -1,0 +1,62 @@
+header {
+    height: 80px;
+    background-color: rgb(95, 75, 61);
+    font-family: Verdana;
+    color: white
+}
+
+#title {
+    text-align: center;
+    float: left;
+    width: 100%;
+}
+
+
+/*body style*/
+
+body {
+    font-family: Verdana;
+    background-color: rgb(219 206 197);
+    font-size: 16px;
+    line-height: 140%;
+    color: rgb(88, 76, 76);
+}
+
+article {
+    margin: 80px auto 0 auto;
+    width: 1200px;
+}
+
+
+
+/*present for each section*/
+
+section {
+    padding: 10px 10px 10px 10px;
+    background-color: white;
+    max-width: 1300px;
+    min-width: 500px;
+    margin: auto auto 30px 90px;
+    height: 100%;
+}
+
+h2 {
+    font-size: 20px;
+    color: #794327;
+    height: 40px;
+    text-align: left;
+}
+
+
+/* move to the left*/
+
+
+footer {
+    clear: both;
+    height: 18px;
+    border-style: none;
+    color: white;
+    text-align: center;
+    font-style: italic;
+}
+
