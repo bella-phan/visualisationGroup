@@ -27,14 +27,12 @@ async function draw() {
     let data = await d3.csv("state_arrival.csv");
 
     //define color
-    var color = d3.scaleQuantize()
-        .domain([
-            d3.min(data, function(d) { return +d.arrival_people; }),
-            d3.max(data, function(d) { return +d.arrival_people; })
-        ])
-        .range(["#fdd49e", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#ce1256", "#0c2c84"]);
+    var color = ["#fdd49e", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#ce1256", "#1d91c0", "#807dba"];
+
+
 
     //loop through one for each ag. data value
+
     for (var i = 0; i < data.length; i++) {
         //grab state name
         var dataState = data[i].state;
@@ -59,7 +57,7 @@ async function draw() {
         .append("path")
         .attr("d", path)
         .attr("fill", function(d) {
-            return color(d.properties.value);
+            return color[d.id];
         });
 
     svg.selectAll("text")
@@ -74,15 +72,13 @@ async function draw() {
         .attr("transform", function(d) {
             var centroid = path.centroid(d);
             return "translate(" + centroid[0] + "," + centroid[1] + ")"
-        });
-
-    //load in Geojsaon data
-    let state_name = await d3.csv("state.csv");
-
+        })
+        .attr("fill", "white")
+        .attr("font-size", "9px");
 
     //create bubble for each state
     svg.selectAll("circle")
-        .data("state")
+        .data(states)
         .enter()
         .append("circle")
         .attr("cx", function(d) {

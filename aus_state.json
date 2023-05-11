@@ -5,7 +5,7 @@
             "id": 0,
             "properties": {
                 "STATE_CODE": "1",
-                "STATE_NAME": "New South Wales"
+                "STATE_NAME": "NSW"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -2673,7 +2673,7 @@
             "id": 1,
             "properties": {
                 "STATE_CODE": "2",
-                "STATE_NAME": "Victoria"
+                "STATE_NAME": "VIC"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -4369,7 +4369,7 @@
             "id": 2,
             "properties": {
                 "STATE_CODE": "3",
-                "STATE_NAME": "Queensland"
+                "STATE_NAME": "QLD"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -9598,7 +9598,7 @@
             "id": 3,
             "properties": {
                 "STATE_CODE": "4",
-                "STATE_NAME": "South Australia"
+                "STATE_NAME": "SA"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -11122,7 +11122,7 @@
             "id": 4,
             "properties": {
                 "STATE_CODE": "5",
-                "STATE_NAME": "Western Australia"
+                "STATE_NAME": "WA"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -19549,7 +19549,7 @@
             "id": 5,
             "properties": {
                 "STATE_CODE": "6",
-                "STATE_NAME": "Tasmania"
+                "STATE_NAME": "TAS"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -22477,7 +22477,7 @@
             "id": 6,
             "properties": {
                 "STATE_CODE": "7",
-                "STATE_NAME": "Northern Territory"
+                "STATE_NAME": "NT"
             },
             "geometry": {
                 "type": "MultiPolygon",
@@ -26461,7 +26461,7 @@
             "id": 7,
             "properties": {
                 "STATE_CODE": "8",
-                "STATE_NAME": "Australian Capital Territory"
+                "STATE_NAME": "ACT"
             },
             "geometry": {
                 "type": "Polygon",
