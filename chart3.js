@@ -27,9 +27,7 @@ async function draw() {
     let data = await d3.csv("state_arrival.csv");
 
     //define color
-    var color = ["#fdd49e", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#ce1256", "#1d91c0", "#807dba"];
-
-
+    var color = ["#fdd49e", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#d4b9da", "#1d91c0", "#807dba"];
 
     //loop through one for each ag. data value
 
@@ -71,14 +69,30 @@ async function draw() {
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
             var centroid = path.centroid(d);
+            //projection.invert(centroid); to get lat long from pixel
             return "translate(" + centroid[0] + "," + centroid[1] + ")"
         })
         .attr("fill", "white")
         .attr("font-size", "9px");
 
-    //create bubble for each state
+    //load d3.csv()
+    let statePosition = await d3.csv("state.csv");
+
+    //using scaleLinear to create a scale for circle
+    var rScale = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return d.arrival_people; })])
+        .range([2, 5]);
+
+    //Use for loop to merge arrial_people form data to statePosition in order to prepare for draw circle.
+    for (let st of statePosition)
+        for (let d of data)
+            if (st.state == d.state) {
+                st.arrival_people = d.arrival_people;
+            }
+
+            //create bubble for each state
     svg.selectAll("circle")
-        .data(states)
+        .data(statePosition)
         .enter()
         .append("circle")
         .attr("cx", function(d) {
@@ -87,8 +101,35 @@ async function draw() {
         .attr("cy", function(d) {
             return projection([d.lon, d.lat])[1];
         })
-        .attr("r", 3)
-        .attr("fill", "red");
+        .attr("r", function(d) {
+            return rScale(d.arrival_people);
+        })
+        .attr("fill", "brown")
+        .attr("fill-opacity", 0.5)
+        //add mouse over effect to show number of people arrive the state
+        .on("mouseover", function(d) {
+            let val = this.__data__.arrival_people; // get value of selected bar
+            d3.select(this)
+                .attr("fill", "orange")
+            var xPosition = parseFloat(d3.select(this).attr("cx")) + 4;
+            var yPosition = parseFloat(d3.select(this).attr("cy")) + 14;
+            svg.append("text")
+                .attr("x", xPosition)
+                .attr("y", yPosition)
+                .attr("id", "tooltip")
+                .attr("text-ancho", "middle")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "9px")
+                .attr("font-weight", "light")
+                .attr("fill", "black")
+                .text(val);
+        })
+        //add mouse out effect to return the colour
+        .on("mouseout", function() {
+            d3.select(this)
+                .attr("fill", "brown");
+            d3.select("#tooltip").remove();
+        })
 
 };
 // wait for web page to load first then execute draw method.
