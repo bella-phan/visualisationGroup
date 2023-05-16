@@ -1,24 +1,36 @@
 async function draw() {
     //creating a new variable svg so we can easily reference it later
-    var w = 500;
-    var h = 300;
-    var margin = 50;
+    var chart_width = 500;
+    var chart_height = 400;
+
+    var margin = { top: 10, right: 30, bottom: 140, left: 100 },
+        w = chart_width - margin.left - margin.right,
+        h = chart_height - margin.top - margin.bottom;
+
     //Append svg to the body page
     var svg = d3.select("#chart2")
         .append("svg")
-        .attr("width", w)
-        .attr("height", h);
+        .attr("width", chart_width)
+        .attr("height", chart_height)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
 
     //load data from datase
     const data = await d3.csv("chart2_reason.csv");
+
+    //sort data
+    data.sort(function(b, a) {
+        return a.arrival - b.arrival;
+    });
 
     // List of subgroups = header of the csv file = soil condition here
     var subgroups = data.columns.slice(1);
     //list of groups = species here = value of girst colum called group => show them in X axis
     var groups = d3.map(data, function(d) {
-            return d.reason
-        })
-        .keys();
+        return d.reason
+    });
+
     //Scale x and add X asis
     var x = d3.scaleBand()
         .domain(groups)
@@ -26,11 +38,16 @@ async function draw() {
         .padding([0.2]);
 
     svg.append("g")
+        .attr("class", "axis")
         .attr("transform", "translate(0," + h + ")")
-        .call(d3.axisBottom(x).tickSize(0));
+        .call(d3.axisBottom(x).tickSize(0))
+        .selectAll("text") // rotate text
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
+
     //Scale y and add Y asis
     var y = d3.scaleLinear()
-        .domain([0, 40])
+        .domain([0, 90000])
         .range([h, 0]);
 
     svg.append("g")
@@ -68,11 +85,11 @@ async function draw() {
             return xSubgroup(d.key);
         })
         .attr("y", function(d) {
-            return y(d.value);
+            return y(+d.value);
         })
         .attr("width", xSubgroup.bandwidth())
         .attr("height", function(d) {
-            return h - y(d.value);
+            return h - y(+d.value);
         })
         .attr("fill", function(d) {
             return color(d.key);
