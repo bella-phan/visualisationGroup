@@ -1,9 +1,9 @@
 async function draw() {
     //creating a new variable svg so we can easily reference it later
-    var chart_width = 500;
+    var chart_width = 570;
     var chart_height = 400;
 
-    var margin = { top: 10, right: 30, bottom: 140, left: 100 },
+    var margin = { top: 70, right: 30, bottom: 140, left: 100 },
         w = chart_width - margin.left - margin.right,
         h = chart_height - margin.top - margin.bottom;
 
@@ -93,8 +93,46 @@ async function draw() {
         })
         .attr("fill", function(d) {
             return color(d.key);
-        })
+        });
+    // Handmade legend
+    svg.append("circle")
+        .attr("cx", 350)
+        .attr("cy", 5)
+        .attr("r", 6)
+        .style("fill", "#41b6c4");
+    svg.append("circle")
+        .attr("cx", 350)
+        .attr("cy", 35)
+        .attr("r", 6)
+        .style("fill", "#2c7fb8");
+    svg.append("text")
+        .attr("x", 370)
+        .attr("y", 5)
+        .text("Arrival")
+        .style("font-size", "11px")
+        .attr("alignment-baseline", "middle");
+    svg.append("text")
+        .attr("x", 370)
+        .attr("y", 35)
+        .text("Departure")
+        .style("font-size", "11px")
+        .attr("alignment-baseline", "middle");
+    svg.append("text")
+        .attr("x", -40)
+        .attr("y", -40)
+        .text("People")
+        .style("font-size", "11px")
+        .attr("alignment-baseline", "middle");
+    svg.append("text")
+        .attr("x", 30)
+        .attr("y", -20)
+        .text("(Average from 2010-2020)")
+        .style("font-size", "8px")
+        .style("text-anchor", "end");
+
 
 };
+
+
 // wait for web page to load first then execute draw method.
 window.onload = draw;
