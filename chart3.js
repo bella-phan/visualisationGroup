@@ -1,11 +1,11 @@
 async function draw() {
     // set up paths
     var w = 1000;
-    var h = 750;
+    var h = 650;
 
     //    define projection
     var projection = d3.geoMercator()
-        .center([133, -25])
+        .center([135, -30])
         .translate([w / 2, h / 2])
         .scale(800);
 
@@ -111,10 +111,10 @@ async function draw() {
             let val = this.__data__.arrival_people; // get value of selected bar
             d3.select(this)
                 .attr("fill", "orange")
-            var xPosition = parseFloat(d3.select(this).attr("cx")) + 4;
-            var yPosition = parseFloat(d3.select(this).attr("cy")) + 14;
+            var xPosition = parseFloat(d3.select(this).attr("cx")) + 10;
+            var yPosition = parseFloat(d3.select(this).attr("cy")) + 20;
             svg.append("text")
-                .attr("x", xPosition)
+                .attr("x", xPosition + 10)
                 .attr("y", yPosition)
                 .attr("id", "tooltip")
                 .attr("text-ancho", "middle")
