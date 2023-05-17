@@ -133,4 +133,6 @@ async function draw() {
 
 };
 // wait for web page to load first then execute draw method.
-window.onload = draw;
+window.addEventListener("load", (event) => {
+    draw();
+});

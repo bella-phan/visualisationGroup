@@ -1,6 +1,6 @@
-Major groupings and visa(d),NOM arrival(e),NOM departure(f)
-Temporary visas,"262,886",136462.7273
-Permanent visas,"85,306",20562.72727
-New Zealand Citizen (subclass 444),"37,692",22212.72727
-Australian Citizen,"77,310",85159.09091
-Other,"9,531",9734.545455
+Major_groupings_and_visa,arrival(e),ratio_ arrival,departure(f),ratio_departure
+Temporary visas,262886,56%,136462,29%
+Permanent visas,85306,18%,20562,4%
+New Zealand Citizen (subclass 444),37692,8%,22213,5%
+Australian Citizen,77310,16%,85159,18%
+Other,9531,2%,9734,2%

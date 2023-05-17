@@ -1,4 +1,4 @@
-async function draw() {
+async function draw_chart2() {
     //creating a new variable svg so we can easily reference it later
     var chart_width = 570;
     var chart_height = 400;
@@ -135,4 +135,6 @@ async function draw() {
 
 
 // wait for web page to load first then execute draw method.
-window.onload = draw;
+window.addEventListener("load", (event) => {
+    draw_chart2();
+});
