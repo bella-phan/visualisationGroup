@@ -36,7 +36,7 @@ async function draw_chart2() {
         .domain(groups)
         .range([0, w])
         .padding([0.2]);
-
+    //Append axis x
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + h + ")")
@@ -47,9 +47,11 @@ async function draw_chart2() {
 
     //Scale y and add Y asis
     var y = d3.scaleLinear()
-        .domain([0, 90000])
+        .domain([0, d3.max(data, function(d) {
+            return +d.arrival;
+        })])
         .range([h, 0]);
-
+    //Append axis y
     svg.append("g")
         .call(d3.axisLeft(y));
 
@@ -64,7 +66,7 @@ async function draw_chart2() {
         .domain(subgroups)
         .range(['#41b6c4', '#2c7fb8']);
 
-    //Draw the bars
+    // Draw the group bars
     svg.append("g")
         .selectAll("g")
         .data(data)
@@ -72,7 +74,7 @@ async function draw_chart2() {
         .append("g")
         .attr("transform", function(d) {
             return "translate(" + x(d.reason) + ",0)";
-        })
+        }) // Move new element to the right
         .selectAll("rect")
         .data(function(d) {
             return subgroups.map(function(key) {
@@ -88,12 +90,48 @@ async function draw_chart2() {
             return y(+d.value);
         })
         .attr("width", xSubgroup.bandwidth())
-        .attr("height", function(d) {
+
+    .attr("height", function(d) {
             return h - y(+d.value);
         })
         .attr("fill", function(d) {
             return color(d.key);
-        });
+        })
+        .attr("data-type", function(d) {
+            // add a data-type attribute to record the arrival/departure rectangle
+            return d.key;
+        })
+        //add mouse over effect to change bar to organe color
+        .on("mouseover", function(d) {
+            let val = this.__data__.value; // get value of selected bar
+            d3.select(this)
+                .attr("fill", "orange")
+            var xPosition = parseFloat(d3.select(this).attr("x")) + 4;
+            var yPosition = parseFloat(d3.select(this).attr("y")) + 14;
+            var reason = this.parentElement.__data__.reason;
+            var xTransform = x(reason) + x.bandwidth();
+            svg.append("text")
+                .attr("transform", function() {
+                    return "translate(" + xTransform + ",0)";
+                }) // Move new element to the right                
+                .attr("x", xPosition)
+                .attr("y", yPosition)
+                .attr("id", "tooltip")
+                .style("font-size", "9px")
+                .style("text-anchor", "end")
+                .attr("fill", "black")
+                .text(val);
+        })
+        //add mouse out effect to return the colour
+        .on("mouseout", function() {
+            d3.select(this)
+                .attr("fill", function(d) {
+                    return color(d.key);
+                });
+            d3.select("#tooltip").remove();
+
+        })
+
     // Handmade legend
     svg.append("circle")
         .attr("cx", 350)
@@ -105,18 +143,50 @@ async function draw_chart2() {
         .attr("cy", 35)
         .attr("r", 6)
         .style("fill", "#2c7fb8");
+
     svg.append("text")
         .attr("x", 370)
         .attr("y", 5)
         .text("Arrival")
+        .attr("id", "#arrivalClick")
         .style("font-size", "11px")
-        .attr("alignment-baseline", "middle");
+        .attr("alignment-baseline", "middle")
+        //add mouse over effect to only show arrival chart only
+        .on("mouseover", function(d) {
+            svg.selectAll("rect[data-type=departure]").each(function(d) {
+                console.log(d);
+                d3.select(this).attr("fill", "white");
+            })
+        })
+        .on("mouseout", function(d) {
+            let key = "departure";
+            svg.selectAll("rect[data-type=departure]").each(function(d) {
+                console.log(d);
+                d3.select(this).attr("fill", color(key));
+            })
+        });
+
     svg.append("text")
         .attr("x", 370)
         .attr("y", 35)
         .text("Departure")
+        .attr("id", "#departure")
         .style("font-size", "11px")
-        .attr("alignment-baseline", "middle");
+        .attr("alignment-baseline", "middle")
+        //add mouse over effect to only show arrival chart only
+        .on("mouseover", function(d) {
+            svg.selectAll("rect[data-type=arrival]").each(function(d) {
+                console.log(d);
+                d3.select(this).attr("fill", "white");
+            })
+        })
+        .on("mouseout", function(d) {
+            let key = "arrival";
+            svg.selectAll("rect[data-type=arrival]").each(function(d) {
+                console.log(d);
+                d3.select(this).attr("fill", color(key));
+            })
+        });
     svg.append("text")
         .attr("x", -40)
         .attr("y", -40)
@@ -130,10 +200,7 @@ async function draw_chart2() {
         .style("font-size", "8px")
         .style("text-anchor", "end");
 
-
 };
-
-
 // wait for web page to load first then execute draw method.
 window.addEventListener("load", (event) => {
     draw_chart2();

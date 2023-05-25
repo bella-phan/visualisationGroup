@@ -72,7 +72,7 @@ async function draw() {
             //projection.invert(centroid); to get lat long from pixel
             return "translate(" + centroid[0] + "," + centroid[1] + ")"
         })
-        .attr("fill", "white")
+        .attr("fill", "black")
         .attr("font-size", "9px");
 
     //load d3.csv()
@@ -130,7 +130,13 @@ async function draw() {
                 .attr("fill", "brown");
             d3.select("#tooltip").remove();
         })
-
+        // add title of the map
+    svg.append("text")
+        .attr("x", 300)
+        .attr("y", 600)
+        .text("Average number of people arrived Australia from 2010 to 2020")
+        .style("font-size", "11px")
+        .style("alignment-baseline", "middle");
 };
 // wait for web page to load first then execute draw method.
 window.addEventListener("load", (event) => {

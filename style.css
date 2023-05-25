@@ -28,7 +28,6 @@ article {
 }
 
 
-
 /*present for each section*/
 
 section {
@@ -42,14 +41,14 @@ section {
 
 h2 {
     font-size: 20px;
-    color: #794327;
     height: 40px;
-    text-align: left;
+    color: rgb(15, 15, 15);
+    display: inline-block;
+    padding-right: 60px;
 }
 
 
 /* move to the left*/
-
 
 footer {
     clear: both;
@@ -60,3 +59,67 @@ footer {
     font-style: italic;
 }
 
+
+/* amination for web title*/
+
+#web_title {
+    text-transform: uppercase;
+    font-size: 60px;
+    margin-bottom: 60px;
+    letter-spacing: 35px;
+    animation: change_color 3s infinite;
+    display: block;
+    margin-block-start: 0;
+    padding-top: 20px;
+}
+
+@keyframes change_color {
+    from {
+        color: rgb(244, 247, 239);
+    }
+    to {
+        color: rgb(170, 117, 81);
+    }
+}
+
+
+/*image*/
+
+#image1 {
+    width: 33.33333%;
+    float: left;
+    display: block;
+}
+
+#image2 {
+    width: 33.33333%;
+    height: 194.67px;
+    float: left;
+    display: block;
+}
+
+#image3 {
+    width: 33.33333%;
+    height: 194.67px;
+    float: left;
+    display: block;
+}
+
+
+/*heading style*/
+
+.top_heading {
+    float: left;
+    display: inline-block;
+}
+
+
+/*hightlight navigation of current page*/
+
+.top_heading:hover {
+    color: #cc7712;
+}
+
+.top_heading .current {
+    color: #cc7712;
+}
