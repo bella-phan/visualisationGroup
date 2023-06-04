@@ -1,6 +1,6 @@
 async function draw() {
     // set up paths
-    var w = 1000;
+    var w = 650;
     var h = 650;
 
     //    define projection
@@ -14,7 +14,7 @@ async function draw() {
         .projection(projection);
 
     //add SVG and read GeoJSON
-    var svg = d3.select("#chart3")
+    var svg = d3.select("#chart2")
         .append("svg")
         .attr("width", w)
         .attr("height", h)
@@ -69,11 +69,11 @@ async function draw() {
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
             var centroid = path.centroid(d);
-            //projection.invert(centroid); to get lat long from pixel
+            console.log(projection.invert(centroid)); //to get lat long from pixel
             return "translate(" + centroid[0] + "," + centroid[1] + ")"
         })
         .attr("fill", "black")
-        .attr("font-size", "9px");
+        .attr("font-size", "13px");
 
     //load d3.csv()
     let statePosition = await d3.csv("state.csv");
@@ -119,9 +119,10 @@ async function draw() {
                 .attr("id", "tooltip")
                 .attr("text-ancho", "middle")
                 .attr("font-family", "sans-serif")
-                .attr("font-size", "9px")
+                .attr("font-size", "13px")
                 .attr("font-weight", "light")
                 .attr("fill", "black")
+                .style("font-weight", "bold")
                 .text(val);
         })
         //add mouse out effect to return the colour
@@ -132,11 +133,12 @@ async function draw() {
         })
         // add title of the map
     svg.append("text")
-        .attr("x", 300)
+        .attr("x", 2)
         .attr("y", 600)
-        .text("Average number of people arrived Australia from 2010 to 2020")
-        .style("font-size", "11px")
-        .style("alignment-baseline", "middle");
+        .text("Figure 2. Average number of people arrived to Australia's state and territories from 2010 to 2020")
+        .style("font-size", "14px")
+        .style("alignment-baseline", "middle")
+        .style("font-weight", "bold");
 };
 // wait for web page to load first then execute draw method.
 window.addEventListener("load", (event) => {

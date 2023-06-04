@@ -1,14 +1,14 @@
 async function draw_chart2() {
     //creating a new variable svg so we can easily reference it later
-    var chart_width = 570;
-    var chart_height = 400;
+    var chart_width = 650;
+    var chart_height = 580;
 
-    var margin = { top: 70, right: 30, bottom: 140, left: 100 },
+    var margin = { top: 70, right: 30, bottom: 220, left: 100 },
         w = chart_width - margin.left - margin.right,
         h = chart_height - margin.top - margin.bottom;
 
     //Append svg to the body page
-    var svg = d3.select("#chart2")
+    var svg = d3.select("#chart1")
         .append("svg")
         .attr("width", chart_width)
         .attr("height", chart_height)
@@ -43,7 +43,8 @@ async function draw_chart2() {
         .call(d3.axisBottom(x).tickSize(0))
         .selectAll("text") // rotate text
         .attr("transform", "translate(-10,0)rotate(-45)")
-        .style("text-anchor", "end");
+        .style("text-anchor", "end")
+        .style("font-size", "12px");
 
     //Scale y and add Y asis
     var y = d3.scaleLinear()
@@ -53,7 +54,8 @@ async function draw_chart2() {
         .range([h, 0]);
     //Append axis y
     svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y))
+        .style("font-size", "12px");
 
     //Another scale for subgroup position
     var xSubgroup = d3.scaleBand()
@@ -106,8 +108,8 @@ async function draw_chart2() {
             let val = this.__data__.value; // get value of selected bar
             d3.select(this)
                 .attr("fill", "orange")
-            var xPosition = parseFloat(d3.select(this).attr("x")) + 4;
-            var yPosition = parseFloat(d3.select(this).attr("y")) + 14;
+            var xPosition = parseFloat(d3.select(this).attr("x")) - 7;
+            var yPosition = parseFloat(d3.select(this).attr("y")) - 14;
             var reason = this.parentElement.__data__.reason;
             var xTransform = x(reason) + x.bandwidth();
             svg.append("text")
@@ -117,8 +119,9 @@ async function draw_chart2() {
                 .attr("x", xPosition)
                 .attr("y", yPosition)
                 .attr("id", "tooltip")
-                .style("font-size", "9px")
+                .style("font-size", "13px")
                 .style("text-anchor", "end")
+                .style("font-weight", "bold")
                 .attr("fill", "black")
                 .text(val);
         })
@@ -143,14 +146,15 @@ async function draw_chart2() {
         .attr("cy", 35)
         .attr("r", 6)
         .style("fill", "#2c7fb8");
-
+    //text "arrival" of legend
     svg.append("text")
         .attr("x", 370)
         .attr("y", 5)
         .text("Arrival")
         .attr("id", "#arrivalClick")
-        .style("font-size", "11px")
+        .style("font-size", "15px")
         .attr("alignment-baseline", "middle")
+        .style("font-weight", "bold")
         //add mouse over effect to only show arrival chart only
         .on("mouseover", function(d) {
             svg.selectAll("rect[data-type=departure]").each(function(d) {
@@ -165,15 +169,16 @@ async function draw_chart2() {
                 d3.select(this).attr("fill", color(key));
             })
         });
-
+    //text "departure" of legend
     svg.append("text")
         .attr("x", 370)
         .attr("y", 35)
         .text("Departure")
         .attr("id", "#departure")
-        .style("font-size", "11px")
+        .style("font-size", "15px")
         .attr("alignment-baseline", "middle")
-        //add mouse over effect to only show arrival chart only
+        .style("font-weight", "bold")
+        //add mouse over effect to only show departure chart only
         .on("mouseover", function(d) {
             svg.selectAll("rect[data-type=arrival]").each(function(d) {
                 console.log(d);
@@ -189,16 +194,25 @@ async function draw_chart2() {
         });
     svg.append("text")
         .attr("x", -40)
-        .attr("y", -40)
+        .attr("y", -60)
         .text("People")
-        .style("font-size", "11px")
-        .attr("alignment-baseline", "middle");
+        .style("font-size", "13px")
+        .attr("alignment-baseline", "middle")
+        .style("font-weight", "bold");
     svg.append("text")
         .attr("x", 30)
-        .attr("y", -20)
+        .attr("y", -40)
         .text("(Average from 2010-2020)")
-        .style("font-size", "8px")
+        .style("font-size", "10px")
         .style("text-anchor", "end");
+    //title of chart
+    svg.append("text")
+        .attr("x", -40)
+        .attr("y", 480)
+        .text("Figure1. Reason people arrive to and departure from Australia based on visa")
+        .style("font-size", "14px")
+        .style("alignment-baseline", "middle")
+        .style("font-weight", "bold");
 
 };
 // wait for web page to load first then execute draw method.
